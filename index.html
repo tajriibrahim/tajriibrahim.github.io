@@ -3,128 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T.A.L.O.S. // PROJECT DATABASE</title>
+    <title>T.A.L.O.S. // COMMANDER PROFILE</title>
     <style>
         :root {
             --bg: #050505;
-            --panel: #111;
             --cyan: #00f3ff;
             --amber: #ff9e00;
-            --text: #c0c0c0;
+            --dim: #333;
+            --text: #e0e0e0;
         }
-        
+
         body {
             background-color: var(--bg);
             color: var(--text);
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Courier New', monospace;
+            height: 100vh;
             margin: 0;
-            padding: 20px;
-        }
-
-        /* HEADER HUD */
-        header {
-            border-bottom: 2px solid var(--cyan);
-            padding-bottom: 10px;
-            margin-bottom: 30px;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-        }
-        
-        h1 { margin: 0; color: var(--cyan); letter-spacing: 2px; }
-        .status { color: var(--amber); font-weight: bold; animation: pulse 2s infinite; }
-
-        /* PROJECT GRID */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background: var(--panel);
-            border: 1px solid #333;
-            padding: 15px;
-            transition: 0.2s;
-            position: relative;
+            justify-content: center;
+            text-align: center;
             overflow: hidden;
         }
 
-        .card:hover {
-            border-color: var(--cyan);
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+        /* MAIN HUD CONTAINER */
+        .profile-card {
+            border: 1px solid var(--dim);
+            padding: 40px;
+            max-width: 500px;
+            position: relative;
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
         }
 
-        .card h3 { margin-top: 0; color: #fff; }
-        .card a { text-decoration: none; color: inherit; display: block; height: 100%; }
-        
-        .language-tag {
-            font-size: 0.8em;
-            color: var(--bg);
-            background: var(--cyan);
-            padding: 2px 6px;
+        /* CORNER ACCENTS */
+        .corner {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            font-weight: bold;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--cyan);
+            transition: 0.3s;
+        }
+        .tl { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+        .tr { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+        .bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+        .br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+        .profile-card:hover .corner { width: 30px; height: 30px; box-shadow: 0 0 10px var(--cyan); }
+
+        /* AVATAR / ICON */
+        .avatar-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 2px dashed var(--amber);
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--amber);
+            animation: spin-slow 10s linear infinite;
         }
 
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        h1 { margin: 0; letter-spacing: 4px; text-transform: uppercase; font-size: 1.8rem; }
+        h2 { color: var(--cyan); font-size: 1rem; margin-top: 5px; font-weight: normal; letter-spacing: 2px; }
+
+        .skills { margin: 20px 0; font-size: 0.85rem; color: #888; }
+        
+        /* NAVIGATION BUTTONS */
+        .nav-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            border: 1px solid var(--cyan);
+            color: var(--cyan);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+            transition: 0.3s;
+            background: rgba(0, 243, 255, 0.05);
+        }
+
+        .nav-btn:hover {
+            background: var(--cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--cyan);
+        }
+
+        @keyframes spin-slow { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>COMMANDER // REPO_LOG</h1>
-        <span class="status">● LIVE FEED</span>
-    </header>
+    <div class="profile-card">
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
 
-    <div id="project-container" class="grid">
-        <p>Scanning GitHub Neural Net...</p>
+        <div class="avatar-circle">☣</div>
+        
+        <h1>COMMANDER</h1>
+        <h2>POLYMATH // MAKER // OPERATOR</h2>
+
+        <div class="skills">
+            [ ROBOTICS ] • [ ESP32 ] • [ RC AVIATION ]<br>
+            [ WEB_DEV ] • [ HARDWARE REPAIR ]
+        </div>
+
+        <a href="logs.html" class="nav-btn">ACCESS MISSION LOGS</a>
     </div>
 
-    <script>
-        // CONFIGURATION: Replace with your actual GitHub username
-        const USERNAME = 'tajriibrahim'; 
-
-        const container = document.getElementById('project-container');
-
-        // 1. Fetch Data from GitHub API
-        fetch(`https://api.github.com/users/${USERNAME}/repos?sort=updated`)
-            .then(response => response.json())
-            .then(data => {
-                // Clear the "Scanning..." text
-                container.innerHTML = '';
-
-                // 2. Loop through each Repo
-                data.forEach(repo => {
-                    // Filter out the portfolio itself if you want
-                    if (repo.name === `${USERNAME}.github.io`) return;
-
-                    // 3. Create HTML Card for each
-                    const card = document.createElement('div');
-                    card.className = 'card';
-                    
-                    // Fallback for missing descriptions
-                    const description = repo.description ? repo.description : "No classified data available.";
-                    const lang = repo.language ? repo.language : "N/A";
-
-                    card.innerHTML = `
-                        <a href="${repo.html_url}" target="_blank">
-                            <span class="language-tag">${lang}</span>
-                            <h3>${repo.name}</h3>
-                            <p>${description}</p>
-                            <small>★ ${repo.stargazers_count} | Updated: ${new Date(repo.updated_at).toLocaleDateString()}</small>
-                        </a>
-                    `;
-
-                    // 4. Inject into DOM
-                    container.appendChild(card);
-                });
-            })
-            .catch(error => {
-                container.innerHTML = `<p style="color:red">ERROR: UPLINK FAILED. ${error}</p>`;
-            });
-    </script>
 </body>
 </html>
